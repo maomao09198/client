@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -25,10 +26,25 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/add-habit" element={<AddHabit />} />
-              <Route path="/my-habits" element={<MyHabits />} />
               <Route path="/browse-habits" element={<BrowseHabits />} />
-              <Route path="/habit/:id" element={<HabitDetails />} />
+              
+              {/* Private Routes */}
+              <Route path="/add-habit" element={
+                <PrivateRoute>
+                  <AddHabit />
+                </PrivateRoute>
+              } />
+              <Route path="/my-habits" element={
+                <PrivateRoute>
+                  <MyHabits />
+                </PrivateRoute>
+              } />
+              <Route path="/habit/:id" element={
+                <PrivateRoute>
+                  <HabitDetails />
+                </PrivateRoute>
+              } />
+              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

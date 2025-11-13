@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const Header = () => {
   const { user, logout } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleLogout = async () => {
     try {
       await logout();
+      setShowDropdown(false);
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -28,15 +30,16 @@ const Header = () => {
           <div className="user-menu">
             <img 
               src={user.photoURL || '/default-avatar.png'} 
-              alt={user.displayName} 
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                cursor: 'pointer'
-              }}
+              alt={user.displayName}
+              onClick={() => setShowDropdown(!showDropdown)}
             />
-            <button onClick={handleLogout}>Logout</button>
+            {showDropdown && (
+              <div className="dropdown-menu">
+                <p>👤 {user.displayName}</p>
+                <p>📧 {user.email}</p>
+                <button onClick={handleLogout}>🚪 Logout</button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="auth-buttons">

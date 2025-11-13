@@ -1,0 +1,1 @@
+export const API_BASE_URL = 'https://server-two-coral.vercel.app';
